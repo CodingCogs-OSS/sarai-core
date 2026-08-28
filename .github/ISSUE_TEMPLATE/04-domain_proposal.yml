@@ -1,0 +1,146 @@
+name: Domain proposal (epic)
+description: Propose a whole capability area — a new Django app with models, API, and admin.
+title: "[Epic]: "
+labels: ["epic", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when the work is larger than one feature: a new local Django app with its
+        own models, migrations, API endpoints, admin coverage, and probably background
+        tasks. Most of the platform's domains are still unbuilt, so this is the expected
+        shape for foundational work.
+
+        An accepted proposal becomes a spec (requirements → design → tasks) before
+        implementation starts.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Capability area
+      options:
+        - Catalog (products, variants, inventory, pricing, promotions)
+        - Selling (orders, order lifecycle, customers)
+        - Integrations (payment or delivery adapters)
+        - Retention / CEM (loyalty, engagement)
+        - Insight (analytics, reporting)
+        - AI-assisted services (BYOK, catalog or campaign assistance)
+        - Support (ticketing)
+        - Platform (settings, auth, migrations, Celery, deployment)
+        - New area not currently in the product scope
+    validations:
+      required: true
+
+  - type: input
+    id: app_name
+    attributes:
+      label: Proposed app name
+      description: >-
+        Top-level package name next to `manage.py`, lowercase, as `startapp` would create
+        it.
+      placeholder: "catalog"
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Merchant outcome
+      description: >-
+        What a merchant can do once this lands, described in their language rather than
+        in models and endpoints.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_in
+    attributes:
+      label: In scope
+      description: Bullet the capabilities this epic covers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_out
+    attributes:
+      label: Out of scope
+      description: >-
+        Explicitly list what this does *not* cover, and link follow-up issues if you
+        already know them. This is the most useful field on the form.
+    validations:
+      required: true
+
+  - type: textarea
+    id: models
+    attributes:
+      label: Proposed models
+      description: >-
+        Sketch the entities and their relationships. Flag any money fields (must be
+        `Decimal`) and any status field that should be an explicit state machine.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API surface
+      description: >-
+        Endpoints to expose. New endpoints require authentication by default — call out
+        explicitly if anything must be public.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: admin
+    attributes:
+      label: Admin dashboard coverage
+      description: >-
+        List views, filters, inlines, and actions the merchant needs. A domain is not done
+        without admin coverage.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: cross_cutting
+    attributes:
+      label: Cross-cutting requirements
+      options:
+        - label: Multi-tenant — every record is scoped to a merchant
+        - label: Money handling uses `Decimal`, never float
+        - label: Stock or balance adjustments are transactional
+        - label: Status fields use an explicit state machine
+        - label: Models registered with django-auditlog (paper trail needed)
+        - label: Slow work pushed to Celery tasks
+        - label: Depends on a payment or delivery adapter interface
+        - label: Requires new environment variables (added to `.env.example`)
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and ordering
+      description: >-
+        Which domains or issues must land first. For example, orders depend on catalog and
+        customers existing.
+    validations:
+      required: false
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Open questions and risks
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and no epic already covers this domain.
+          required: true
+        - label: >-
+            I confirmed this app does not already exist in `INSTALLED_APPS` under
+            `# Local apps`.
+          required: true

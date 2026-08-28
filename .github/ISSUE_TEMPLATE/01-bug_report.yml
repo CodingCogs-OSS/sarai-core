@@ -1,0 +1,152 @@
+name: Bug report
+description: Something in the API, admin dashboard, or a background task behaves incorrectly.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug.
+
+        **Before you paste logs or config:** redact secrets. That means `SECRET_KEY`,
+        database URLs, `.env` contents, payment provider credentials, webhook signing
+        secrets, session cookies, and any merchant BYOK AI provider key. Replace them
+        with `***`. If a secret has already been exposed anywhere, rotate it.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What goes wrong, in a sentence or two.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Capability area
+      description: Which domain does this affect? Pick the closest match.
+      options:
+        - Catalog (products, variants, inventory, pricing, promotions)
+        - Selling (orders, order lifecycle, customers)
+        - Integrations (payment or delivery adapters)
+        - Retention / CEM (loyalty, engagement)
+        - Insight (analytics, reporting)
+        - AI-assisted services (BYOK, catalog or campaign assistance)
+        - Support (ticketing)
+        - Platform (settings, auth, migrations, Celery, deployment)
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      description: Where the wrong behavior shows up.
+      multiple: true
+      options:
+        - REST API (django-ninja)
+        - REST API (DRF / OpenAPI schema)
+        - Admin dashboard (django-unfold)
+        - Celery task or beat schedule
+        - Data model / migration
+        - Ops (Control Room, cache, Redis)
+        - Local setup / tooling (uv, manage.py)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - Incorrect behavior or wrong output
+        - Unhandled exception / 500
+        - Data correctness (money, stock, or order state is wrong)
+        - Performance (slow query, N+1, Celery backlog)
+        - Regression (worked previously)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: >-
+        Be specific. Include the request method and path, payload shape, or the admin
+        action taken. A failing test or a `manage.py shell` snippet is ideal.
+      placeholder: |
+        1. POST /api/orders/ with { ... }
+        2. Mark the order as paid in the admin
+        3. Check the stock movement rows for the variant
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the traceback or relevant log output, with secrets redacted.
+      render: shell
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: blast_radius
+    attributes:
+      label: Blast radius
+      description: >-
+        Check anything that applies. These areas are correctness-critical and get
+        prioritized ahead of cosmetic defects.
+      options:
+        - label: Produces incorrect monetary amounts, totals, tax, or refunds
+        - label: Corrupts or desynchronizes inventory / stock movements
+        - label: Leaves an order, payment, or fulfillment in an invalid state
+        - label: Leaks data across merchants (tenant isolation failure)
+        - label: Exposes a secret or credential in logs, API responses, or admin views
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Git commit SHA or branch you reproduced this on.
+      placeholder: "development @ b2f206f"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Anything relevant about how you are running the project.
+      placeholder: |
+        OS: Windows 11
+        Python: 3.14
+        Database: SQLite (default) / Postgres 16
+        DEBUG: true
+        Redis / Celery running: yes
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed all secrets, tokens, and credentials from the text above.
+          required: true
+        - label: >-
+            This is not a security vulnerability. (If it is, close this and use private
+            vulnerability reporting instead.)
+          required: true

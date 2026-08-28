@@ -1,0 +1,145 @@
+name: Integration request (payment / delivery provider)
+description: Request or propose a new payment or delivery provider adapter.
+title: "[Integration]: "
+labels: ["integration", "enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Payments and delivery are adapter-based. A new provider means a concrete
+        implementation behind the existing provider-agnostic interface, never
+        provider-specific details leaking into order or checkout logic.
+
+        **Do not paste API keys, secrets, or sandbox credentials into this issue.**
+        Link to the provider's public documentation instead.
+
+  - type: input
+    id: provider
+    attributes:
+      label: Provider name
+      placeholder: "e.g. Stripe, Zarinpal, Post, DHL"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Adapter type
+      options:
+        - Payment
+        - Delivery / shipping
+        - Both
+    validations:
+      required: true
+
+  - type: input
+    id: docs
+    attributes:
+      label: Public API documentation URL
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this provider
+      description: >-
+        Which merchants need it and why. Market, region, or channel coverage is the
+        useful signal here.
+    validations:
+      required: true
+
+  - type: input
+    id: regions
+    attributes:
+      label: Regions and currencies
+      description: Where the provider operates and which currencies it settles in.
+      placeholder: "Iran, IRR / IRT"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sandbox
+    attributes:
+      label: Sandbox / test environment
+      description: Can a contributor develop and test this without a live merchant account?
+      options:
+        - Yes, public sandbox with self-service signup
+        - Yes, but sandbox access requires provider approval
+        - No sandbox available
+        - Unknown
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: capabilities
+    attributes:
+      label: Capabilities to support
+      description: Check what this adapter needs to implement.
+      options:
+        - label: Authorize / charge
+        - label: Capture (separate from authorize)
+        - label: Refund (full)
+        - label: Refund (partial)
+        - label: Webhooks / async status callbacks
+        - label: Idempotent retries
+        - label: Rate quoting (delivery)
+        - label: Label generation (delivery)
+        - label: Tracking / status updates (delivery)
+        - label: Multi-tenant credentials (per-merchant account configuration)
+
+  - type: dropdown
+    id: auth_model
+    attributes:
+      label: Authentication model
+      options:
+        - API key / secret
+        - OAuth 2.0
+        - Merchant ID plus signed request
+        - Certificate or mTLS
+        - Other / unclear
+    validations:
+      required: true
+
+  - type: textarea
+    id: webhooks
+    attributes:
+      label: Webhook and reconciliation behavior
+      description: >-
+        Optional. How the provider notifies about state changes, whether callbacks are
+        signed, whether they are replayed, and how to reconcile if a callback is missed.
+        This drives the Celery retry design.
+    validations:
+      required: false
+
+  - type: textarea
+    id: quirks
+    attributes:
+      label: Known quirks or constraints
+      description: >-
+        Optional. Unusual currency handling (minor units, no decimals), non-standard
+        error semantics, IP allowlisting, or anything that will not fit the generic
+        interface cleanly.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Are you planning to implement this?
+      options:
+        - "Yes, I want to build the adapter"
+        - "Maybe, with guidance on the adapter interface"
+        - "No, this is a request"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this provider has not already been requested.
+          required: true
+        - label: I did not include any API keys, secrets, or credentials in this issue.
+          required: true

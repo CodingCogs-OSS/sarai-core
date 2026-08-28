@@ -1,0 +1,64 @@
+name: Chore / maintenance
+description: Dependency upgrades, refactors, tooling, and CI work.
+title: "[Chore]: "
+labels: ["chore"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Housekeeping that does not change merchant-facing behavior. Keeping these separate
+        from `enhancement` keeps the roadmap readable.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type of work
+      options:
+        - Dependency upgrade or addition
+        - Refactor (no behavior change)
+        - Tooling (linter, formatter, type checker, pre-commit)
+        - Test infrastructure
+        - CI / CD
+        - Developer experience
+        - Cleanup / dead code removal
+        - Deployment or ops configuration
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What needs doing
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why now
+      description: >-
+        What this unblocks, or what pain it removes. Security patches and
+        end-of-life runtimes should say so explicitly.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - label: Requires a database migration
+        - label: Changes public API behavior or response shapes
+        - label: Adds or changes environment variables (update `.env.example`)
+        - label: Touches `pyproject.toml` / `uv.lock` (managed with `uv`, never edited by hand)
+        - label: Breaking change for existing deployments
+        - label: Addresses a known CVE or security advisory
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: >-
+        Optional. Migration path, upstream changelog links, or a rollout plan.
+    validations:
+      required: false

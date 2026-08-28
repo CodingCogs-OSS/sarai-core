@@ -1,0 +1,20 @@
+# Issue template chooser configuration.
+#
+# Blank issues are disabled so every report arrives with triage fields filled in.
+# Security reports are deliberately routed to a private advisory instead of a
+# template: a public form would invite pasting payment credentials or a
+# merchant's BYOK AI provider key into a world-readable issue.
+blank_issues_enabled: false
+
+contact_links:
+  - name: Report a security vulnerability (private)
+    url: https://github.com/CodingCogs-OSS/sarai-core/security/advisories/new
+    about: >-
+      Do not open a public issue for security problems. Use private vulnerability
+      reporting so credentials, tokens, and merchant data are never exposed.
+
+  - name: Ask a question or discuss an idea
+    url: https://github.com/CodingCogs-OSS/sarai-core/discussions
+    about: >-
+      Usage questions, setup help, and open-ended design discussion belong in
+      Discussions. File an issue once there is a concrete bug or change to make.

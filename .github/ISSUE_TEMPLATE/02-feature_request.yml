@@ -1,0 +1,104 @@
+name: Feature request
+description: Propose a single, scoped capability inside an existing domain.
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for one focused change. If you are proposing a whole new capability area
+        (a new Django app with its own models, API, and admin), use the
+        **Domain proposal** template instead. If you are asking for a new payment or
+        delivery provider, use the **Integration request** template.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: >-
+        What can a merchant not do today? Describe the operational pain, not the
+        implementation. Remember the target user is a small to medium seller with no
+        technical team.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should the behavior be once this ships?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Capability area
+      options:
+        - Catalog (products, variants, inventory, pricing, promotions)
+        - Selling (orders, order lifecycle, customers)
+        - Integrations (payment or delivery adapters)
+        - Retention / CEM (loyalty, engagement)
+        - Insight (analytics, reporting)
+        - AI-assisted services (BYOK, catalog or campaign assistance)
+        - Support (ticketing)
+        - Platform (settings, auth, migrations, Celery, deployment)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: surfaces
+    attributes:
+      label: Surfaces this needs
+      description: >-
+        A domain is not considered done until it has both API endpoints and admin
+        dashboard coverage. Check everything this feature requires.
+      options:
+        - label: REST API endpoints
+        - label: Admin dashboard coverage
+        - label: New or changed models / migrations
+        - label: Background work (Celery task or periodic schedule)
+        - label: Audit logging (django-auditlog registration)
+        - label: New settings or environment variables
+
+  - type: textarea
+    id: api_sketch
+    attributes:
+      label: API sketch
+      description: >-
+        Optional. Rough endpoint paths, request/response shapes, or admin screens you
+        have in mind.
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    id: correctness
+    attributes:
+      label: Correctness considerations
+      description: >-
+        Optional but strongly encouraged if this touches money, stock, or order state.
+        Note anything needing `Decimal` arithmetic, transactional stock adjustment, or an
+        explicit state machine rather than a free-form status string.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you weighed, and why you set them aside.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: >-
+            I checked that this capability does not already exist. (The project is
+            freshly scaffolded, so most domains are not built yet.)
+          required: true

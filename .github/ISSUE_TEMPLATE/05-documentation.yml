@@ -1,0 +1,64 @@
+name: Documentation
+description: Report a gap, error, or unclear passage in the docs.
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Documentation issues are welcome and low-friction. If you already know the fix, a
+        pull request is even more welcome than an issue.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of documentation problem is this?
+      options:
+        - Missing — something is undocumented
+        - Incorrect — the docs do not match actual behavior
+        - Unclear — technically correct but hard to follow
+        - Outdated — describes an older version of the project
+        - Broken link or formatting
+    validations:
+      required: true
+
+  - type: dropdown
+    id: location
+    attributes:
+      label: Where
+      options:
+        - README / getting started
+        - Setup and local development (uv, env vars, Celery, Redis)
+        - API reference / OpenAPI schema descriptions
+        - Admin dashboard usage
+        - Architecture and project structure
+        - Contributing guidelines
+        - Code comments or docstrings
+        - Steering documents (`.kiro/steering/`)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: File path or URL
+      description: Point at the exact place, if there is one.
+      placeholder: "README.md, or Sarai/settings.py:120"
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested wording or content
+      description: Optional. Even a rough draft helps.
+    validations:
+      required: false
