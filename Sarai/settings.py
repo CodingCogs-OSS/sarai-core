@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     "dj_signals_panel",
     "dj_control_room",
     # Local apps
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -294,7 +295,7 @@ UNFOLD = {
 DJ_CONTROL_ROOM_SETTINGS = {
     # Detects django-unfold from INSTALLED_APPS and loads the matching theme.
     "THEME_AUTO_DETECT": True,
-    "REGISTER_PANELS_IN_ADMIN": True,
+    # "REGISTER_PANELS_IN_ADMIN": True,
     "MCP_ENABLED": False,
 }
 
